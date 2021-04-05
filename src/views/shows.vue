@@ -2,9 +2,16 @@
   <div>
     <section id="js-grid-list" class="grid-list" v-cloak>
       <div class="tool-bar">
-        <input v-model="searchByName" type="text" />
-        <button class="btn btn-primary" @click="search">search</button>
-        <!-- These link buttons use Vue.js to bind click events to change the "layout" variable and bind an active class -->
+        <div class="search-bar-center">
+          <input class="search-bar" v-model="searchByName" type="text" />
+          <button class="btn btn-secondary" @click="search">search</button>
+          <label class="item-label">Item Per Page</label>
+          <select class="limit-box" v-model="settings.limit" @change="loadMore">
+            <option value="16">16</option>
+            <option value="24">24</option>
+            <option value="30">30</option>
+          </select>
+        </div>
         <a
           class="list-icon"
           v-on:click="layout = 'list'"
@@ -17,11 +24,6 @@
           v-bind:class="{ active: layout == 'grid' }"
           title="Grid"
         ></a>
-        <select v-model="settings.limit" @change="loadMore">
-          <option value="16">16</option>
-          <option value="24">24</option>
-          <option value="30">30</option>
-        </select>
       </div>
 
       <ul :class="layout">
@@ -32,19 +34,18 @@
         >
           <!-- eslint-disable-next-line -->
           <li v-for="show in getShows">
-            <template v-if="layout == 'list'" >
+            <template v-if="layout == 'list'">
               <a v-bind:href="show.link" target="_blank">
                 <img :src="show.image" />
                 <p>{{ show.name }}</p>
               </a>
             </template>
 
-
-            <template  v-if="layout == 'grid'">
-
-              <a v-bind:href="show.link"
-                  v-bind:style="{ backgroundImage: 'url(' + show.image + ')' }"
-                  target="_blank"
+            <template v-if="layout == 'grid'">
+              <a
+                v-bind:href="show.link"
+                v-bind:style="{ backgroundImage: 'url(' + show.image + ')' }"
+                target="_blank"
               ></a>
               <p>{{ show.name }}</p>
             </template>
@@ -189,10 +190,12 @@ a:hover {
 }
 
 .tool-bar a.list-icon {
+  z-index: 1;
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyBpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBXaW5kb3dzIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkYzNkFCQ0ZBMTBCRTExRTM5NDk4RDFEM0E5RkQ1NEZCIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkYzNkFCQ0ZCMTBCRTExRTM5NDk4RDFEM0E5RkQ1NEZCIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6RjM2QUJDRjgxMEJFMTFFMzk0OThEMUQzQTlGRDU0RkIiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6RjM2QUJDRjkxMEJFMTFFMzk0OThEMUQzQTlGRDU0RkIiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7h1bLqAAAAWUlEQVR42mL8////BwYGBn4GCACxBRlIAIxAA/4jaXoPEkMyjJ+A/g9MDJQBRhYg8RFqMwg8RJIUINYLFDmBUi+ADQAF1n8ofk9yIAy6WPg4GgtDMRYAAgwAdLYwLAoIwPgAAAAASUVORK5CYII=');
 }
 
 .tool-bar a.grid-icon {
+  z-index: 1;
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyBpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBXaW5kb3dzIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjBEQkMyQzE0MTBCRjExRTNBMDlGRTYyOTlBNDdCN0I4IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjBEQkMyQzE1MTBCRjExRTNBMDlGRTYyOTlBNDdCN0I4Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MERCQzJDMTIxMEJGMTFFM0EwOUZFNjI5OUE0N0I3QjgiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MERCQzJDMTMxMEJGMTFFM0EwOUZFNjI5OUE0N0I3QjgiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4MjPshAAAAXklEQVR42mL4////h/8I8B6IGaCYKHFGEMnAwCDIAAHvgZgRyiZKnImBQsACxB+hNoDAQyQ5osQZIT4gH1DsBZABH6AB8x/JaQzEig++WPiII7Rxio/GwmCIBYAAAwAwVIzMp1R0aQAAAABJRU5ErkJggg==');
 }
 
@@ -224,9 +227,9 @@ a:hover {
   background-repeat: no-repeat;
   background-size: cover;
   border: 2px solid #fff;
-  height: 99%;
+  height: 100%;
   position: absolute;
-  width: 98%;
+  width: 100%;
 }
 
 .grid li a:hover {
@@ -234,6 +237,16 @@ a:hover {
   box-shadow: inset 0 0 90px -10px rgba(0, 0, 0, 1);
   -moz-box-shadow: inset 0 0 90px -10px rgba(0, 0, 0, 1);
   -webkit-box-shadow: inset 0 0 90px -10px rgba(0, 0, 0, 1);
+}
+.grid li p {
+  z-index: 1;
+  position: relative;
+  background: rgb(0 0 0 / 50%);
+  color: #fff;
+  top: 0;
+  padding: 10px;
+  margin: 0 2px 0 2px;
+  text-align: center;
 }
 
 /* List layout */
@@ -281,5 +294,74 @@ a:hover {
   padding: 0 0 0 15px;
   vertical-align: middle;
   width: 100%;
+}
+.search-bar-center {
+  text-align: center;
+  position: static;
+  margin-top: 33px;
+}
+.btn {
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  width: 13%;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.btn-secondary {
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.search-bar {
+  width: 20%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  margin-right: 10px;
+}
+.limit-box {
+  width: 8%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  -webkit-transition: border-color 0.15s ease-in-out,
+    -webkit-box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out,
+    -webkit-box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
+    -webkit-box-shadow 0.15s ease-in-out;
+  left: 10px;
+}
+.item-label {
+  margin: 0px 16px;
+  color: white;
+  font-size: initial;
+  font-weight: bold;
 }
 </style>

@@ -1,10 +1,10 @@
-const axios = require('axios');
+const axios = require('axios')
 
 const config = {
-    timeout: 1500,
-    baseURL: process.env.VUE_APP_API_URL,
-};
+  timeout: 1500,
+  baseURL: process.env.VUE_APP_API_URL
+}
 
-const instance = axios.create(config);
+const instance = axios.create(config)
 
-export default instance;
+export default instance

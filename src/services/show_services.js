@@ -1,7 +1,6 @@
-import axiosConfig from "../axiosConfig";
+import axiosConfig from '../axiosConfig'
 
 export default {
-
   getShows(settings) {
     const url = 'shows'
     return axiosConfig.get(url, { params: settings }).catch(error => {
